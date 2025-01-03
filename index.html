@@ -1,0 +1,138 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Happy Records</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        header {
+            background-color: #ffb3b3;
+            padding: 20px;
+            text-align: center;
+            font-size: 2em;
+            font-weight: bold;
+            color: white;
+        }
+        section {
+            margin: 20px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        h2 {
+            color: #ff6666;
+        }
+        input, textarea, button {
+            margin: 10px 0;
+            padding: 10px;
+            width: 100%;
+            max-width: 500px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #ff6666;
+            color: white;
+            cursor: pointer;
+            border: none;
+        }
+        button:hover {
+            background-color: #e05555;
+        }
+        .messages, .logs, .images {
+            margin-top: 20px;
+        }
+        .message, .log, .image {
+            margin: 10px 0;
+            padding: 10px;
+            background: #f0f0f0;
+            border-radius: 5px;
+        }
+        .image img {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <header>My Happy Records</header>
+    <section>
+        <h2>Leave a Message</h2>
+        <input type="text" id="name" placeholder="Your Name">
+        <textarea id="message" placeholder="Your Message"></textarea>
+        <button onclick="addMessage()">Submit</button>
+        <div class="messages"></div>
+    </section>
+    <section>
+        <h2>Upload a Log</h2>
+        <textarea id="log" placeholder="Write your log here..."></textarea>
+        <button onclick="addLog()">Upload Log</button>
+        <div class="logs"></div>
+    </section>
+    <section>
+        <h2>Upload an Image</h2>
+        <input type="file" id="imageUpload" accept="image/*">
+        <button onclick="addImage()">Upload Image</button>
+        <div class="images"></div>
+    </section>
+    <script>
+        function addMessage() {
+            const name = document.getElementById('name').value;
+            const message = document.getElementById('message').value;
+            if (name && message) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = 'message';
+                messageDiv.textContent = name + ": " + message;
+                document.querySelector('.messages').appendChild(messageDiv);
+                document.getElementById('name').value = '';
+                document.getElementById('message').value = '';
+            } else {
+                alert("Please enter both name and message!");
+            }
+        }
+
+        function addLog() {
+            const log = document.getElementById('log').value;
+            if (log) {
+                const logDiv = document.createElement('div');
+                logDiv.className = 'log';
+                logDiv.textContent = log;
+                document.querySelector('.logs').appendChild(logDiv);
+                document.getElementById('log').value = '';
+            } else {
+                alert("Please write something in the log!");
+            }
+        }
+
+        function addImage() {
+            const imageInput = document.getElementById('imageUpload');
+            const file = imageInput.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const imageDiv = document.createElement('div');
+                    imageDiv.className = 'image';
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    imageDiv.appendChild(img);
+                    document.querySelector('.images').appendChild(imageDiv);
+                };
+                reader.readAsDataURL(file);
+                imageInput.value = '';
+            } else {
+                alert("Please select an image to upload!");
+            }
+        }
+    </script>
+</body>
+</html>
